@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #282c34;
+  font-family: "Arial", sans-serif;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-box {
+  position: relative;
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 500px;
+  text-align: center;
+  animation: slideIn 1s ease;
+}
+
+.login-title {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 20%;
+}
+
+.input-box {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #adadad;
+  outline: none;
+  background: none;
+  transition: border 0.3s ease;
+}
+
+.input-box label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  pointer-events: none;
+  font-size: 16px;
+  color: #adadad;
+  transition: 0.5s ease;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -20px;
+  color: #5264ae;
+  font-size: 12px;
+}
+
+.input-box input:focus {
+  border-color: #5264ae;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  cursor: pointer;
+  color: #adadad;
+}
+
+.password-toggle-icon:hover {
+  color: #5264ae;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background: #5264ae;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #4153a1;
+}
+
+.login-options {
+  margin-top: 20px;
+}
+
+.forgot-password {
+  color: #5264ae;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #4153a1;
+}
+
+.signup-option {
+  font-size: 14px;
+}
+
+.signup-link {
+  color: #5264ae;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #4153a1;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

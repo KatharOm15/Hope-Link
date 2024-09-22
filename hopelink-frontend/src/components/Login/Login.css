@@ -40,7 +40,7 @@ body {
 
 .input-box {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .input-box input {
@@ -66,7 +66,7 @@ body {
 
 .input-box input:focus ~ label,
 .input-box input:valid ~ label {
-  top: -20px;
+  top: -10px;
   color: #5264ae;
   font-size: 12px;
 }
@@ -131,6 +131,14 @@ body {
 
 .signup-link:hover {
   color: #4153a1;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.7em;
+  margin-top: -20px;
+  margin-bottom: 25px;
+  text-align: justify;
 }
 
 @keyframes slideIn {

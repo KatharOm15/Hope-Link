@@ -1,20 +1,38 @@
 import React, { useState } from "react";
-import "./Login.css"; // Ensure the CSS is linked properly
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import Font Awesome icons
+import "./Login.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formState, setFormState] = useState({ username: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "password") {
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(value)) {
+        setPasswordError(
+          "Password must be at least 8 characters, contain one capital letter, one symbol, and one number"
+        );
+      } else {
+        setPasswordError("");
+      }
+    }
+
     setFormState({ ...formState, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Logging in as ${formState.username}`);
+    if (passwordError) {
+      alert("Please ensure the password meets the required criteria");
+    } else {
+      alert(`Logging up as ${formState.username}`);
+    }
   };
 
   const toggleShowPassword = () => {
@@ -23,10 +41,6 @@ const Login = () => {
 
   const handleForgotPassword = () => {
     alert("Forgot Password clicked");
-  };
-
-  const handleSignup = () => {
-    alert("Redirecting to signup");
   };
 
   return (
@@ -57,19 +71,21 @@ const Login = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+          {passwordError && <p className="error-message">{passwordError}</p>}
           <button type="submit" className="submit-btn">
             Submit
           </button>
         </form>
 
-        {/* Forgot password and Sign up options */}
         <div className="login-options">
           <p className="forgot-password" onClick={handleForgotPassword}>
             Forgot Password?
           </p>
           <p>
-            Don't have an account?{' '}
-            <Link to="/sign-up" className="signup-link">Sign Up</Link>
+            Don't have an account?{" "}
+            <Link to="/sign-up" className="signup-link">
+              Sign Up
+            </Link>
           </p>
         </div>
       </div>

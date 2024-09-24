@@ -1,25 +1,27 @@
 /* Ensure the CSS file is properly linked to your React component */
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+  } */
   
-  body {
+  /* body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
+  } */
   
   .signup-container {
+    background: #282c34;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100vh;
+    animation: slideIn 1s ease;
   }
   
   .signup-box {
@@ -114,6 +116,16 @@
     .signup-box {
       width: 90%;
       padding: 20px;
+    }
+  }
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
     }
   }
   

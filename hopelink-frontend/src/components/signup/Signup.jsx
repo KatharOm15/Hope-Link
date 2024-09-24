@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import Font Awesome icons
 import './SignUp.css'
-import { Link } from "react-router-dom";
+import { Link,Outlet } from "react-router-dom";
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
@@ -77,6 +77,9 @@ const SignUp = () => {
               onChange={handleInputChange}
             />
             <label>Confirm Password</label>
+            <span className="password-toggle-icon" onClick={toggleShowPassword}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           <button type="submit" className="submit-btn">
             Sign Up
@@ -85,9 +88,10 @@ const SignUp = () => {
         <br />
         <p>
             Already have an account?{' '}
-            <Link to="/" className="signup-link">Login</Link>
+            <Link to="/login" className="signup-link">Login</Link>
           </p>
       </div>
+    
     </div>
   );
 };

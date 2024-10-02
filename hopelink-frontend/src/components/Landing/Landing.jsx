@@ -1,51 +1,50 @@
-import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import './landing.css'
+import React from "react";
+import { Link } from "react-router-dom";
+// import backgroundImage from "./bg-img.png";
 
-const Landing = () => {
-  const navigate = useNavigate();
-
-  // Handlers for button clicks
-  const handleLoginClick = () => {
-    navigate('/login');
+const LandingPage = () => {
+  const landingPageStyles = {
+    height: "100vh",
+    width: "100vw",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    color: "white",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    overflow: "hidden",
+    position: "relative",
   };
 
-  const handleSignupClick = () => {
-    navigate('/signup');
+  const headingStyles = {
+    fontSize: "3rem",
+    marginBottom: "20px",
+    zIndex: 1,
+  };
+
+  const buttonStyles = {
+    padding: "15px 30px",
+    fontSize: "1.2rem",
+    color: "white",
+    backgroundColor: "#007BFF",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+    zIndex: 1,
   };
 
   return (
-    <div className="main">
-      <div className='left' style={{ textAlign: 'center', padding: '50px' }}>
-      
-      <h1>Welcome to Our Platform</h1>
-      <p>Please choose one of the following options:</p>
-      
-      {/* Buttons to redirect to Login and Signup pages */}
-      <button
-        onClick={handleLoginClick}
-        style={{ margin: '10px', padding: '10px 20px', fontSize: '16px' }}
-      >
-        Login
-      </button>
-
-      <button
-        onClick={handleSignupClick}
-        style={{ margin: '10px', padding: '10px 20px', fontSize: '16px' }}
-      >
-        Signup
-      </button>
-      
-      
+    <div style={landingPageStyles}>
+      <p style={headingStyles}>Welcome to Our Platform</p>
+      <Link to="/">
+        <button style={buttonStyles}>Get Started</button>
+      </Link>
     </div>
-    <div className="right">
-    <Outlet></Outlet>
-    </div>
-    </div>
-
-    
-    
   );
 };
 
-export default Landing;
+export default LandingPage;

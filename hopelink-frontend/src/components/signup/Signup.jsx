@@ -1,19 +1,35 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import Font Awesome icons
-import './SignUp.css'
-import { Link,Outlet } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./SignUp.css";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
     username: "",
     password: "",
     confirmPassword: "",
-    email: ""
+    email: "",
+    role: "",
   });
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "password") {
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(value)) {
+        setPasswordError(
+          "Password must be at least 8 characters, contain one capital letter, one symbol, and one number"
+        );
+      } else {
+        setPasswordError("");
+      }
+    }
+
     setFormState({ ...formState, [name]: value });
   };
 
@@ -21,6 +37,8 @@ const SignUp = () => {
     e.preventDefault();
     if (formState.password !== formState.confirmPassword) {
       alert("Passwords do not match");
+    } else if (passwordError) {
+      alert("Please ensure the password meets the required criteria");
     } else {
       alert(`Signed up as ${formState.username}`);
     }
@@ -28,6 +46,14 @@ const SignUp = () => {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleRoleChange = (role) => {
+    setFormState({ ...formState, role });
   };
 
   return (
@@ -68,18 +94,45 @@ const SignUp = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+          {passwordError && <p className="error-message">{passwordError}</p>}
           <div className="input-box">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               required
               value={formState.confirmPassword}
               onChange={handleInputChange}
             />
             <label>Confirm Password</label>
-            <span className="password-toggle-icon" onClick={toggleShowPassword}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            <span
+              className="password-toggle-icon"
+              onClick={toggleShowConfirmPassword}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
+          </div>
+          <div className="role-selection">
+            <label className="role-label">Role:</label>
+            <div className="role-buttons">
+              <button
+                type="button"
+                className={`role-button ${
+                  formState.role === "NGO" ? "active" : ""
+                }`}
+                onClick={() => handleRoleChange("NGO")}
+              >
+                NGO
+              </button>
+              <button
+                type="button"
+                className={`role-button ${
+                  formState.role === "Volunteer" ? "active" : ""
+                }`}
+                onClick={() => handleRoleChange("Volunteer")}
+              >
+                Volunteer
+              </button>
+            </div>
           </div>
           <button type="submit" className="submit-btn">
             Sign Up
@@ -87,9 +140,11 @@ const SignUp = () => {
         </form>
         <br />
         <p>
-            Already have an account?{' '}
-            <Link to="/login" className="signup-link">Login</Link>
-          </p>
+          Already have an account?{" "}
+          <Link to="/" className="signup-link">
+            Login
+          </Link>
+        </p>
       </div>
     
     </div>

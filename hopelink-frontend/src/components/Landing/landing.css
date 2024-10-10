@@ -1,99 +1,54 @@
-*{
-   
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 .main{
-    background: #282c34;
-    display: flex;
     width: 100%;
     height: 100vh;
-    animation: slideIn 1s ease;
-}
-.left{
-    float: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    background-color:#000;
+    background-image: url('https://www.ucf.edu/wp-content/blogs.dir/20/files/2021/08/UCF-Space-Exploration.jpg');
+    background-repeat: no-repeat;
+    object-fit: fill;
+    background-size: cover;
+    display:flex;
     flex-direction: column;
-    
-   
+    justify-content: center;
+    align-items: center;
+    animation: slideIn 1s ease-in;
 }
-.right{
-    display: flex;
-    float: right;
+.container{
+    width: 100%;
+    
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 80px;
+    font-weight: bolder;
+ 
+}
+.getStarted{
+    width: 100%;
     align-items: center;
     justify-content: center;
-    width:100%;
-    
-
-}
-img{
-    align-self: center;
-    justify-self: center;
-    margin-left: 35px;
-    box-shadow: 5px 5px 15px  white;
-    width: 90%;
-    border-radius: 12px;
-    opacity: 0;  /* Start with the element hidden */
-    animation: fadeInOnLoad 2s ease-in forwards;  /* 2s fade-in animation */
-
-}
-@keyframes fadeInOnLoad {
-    from {
-        opacity: 0;  /* Start from invisible */
-    }
-    to {
-        opacity: 1;  /* End with fully visible */
-    }
-}
-.content{
-    width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   
-
-    
-}
-h1,h2{
-    color: rgba(255, 255, 255, 0.675);
-}
-h1{
-    font-size: 100px;
-    font-weight: bolder;  
-    
-}
-h2{
-    width: 90%;
-    margin-top: 10px;
-   text-align: justify;
-
-}
-.buttons{
-    margin-top: 20px;
-    width: 100%;
     display: flex;
-    justify-content: space-around;
-
 }
-button{
-    width: 45%;
-    padding: 10px;
-    background: #5264ae;
+.btn-landing{
+    align-items: center;
+    width: 20%;
+    height: 5vh;
+    background-color: #1a43d6;
+    color: white;
+    font-size: 20px;
+    border-radius: 12px;
     border: none;
-    color: #fff;
-    font-size: 18px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    box-shadow: 6px 8px 40px 2px;
 }
 
 @keyframes slideIn {
     0% {
-      transform: translateY(-100px);
+      transform: translateY(-200px);
       opacity: 0;
+    }
+    50%{
+        transform: translateY(-100px);
+        opacity: 0.5;
     }
     100% {
       transform: translateY(0);

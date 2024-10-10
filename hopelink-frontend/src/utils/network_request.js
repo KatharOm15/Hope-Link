@@ -6,15 +6,17 @@ async function networkRequest(
   requestType = "get",
   data = null
 ) {
+  const token = localStorage.getItem("access_token");
   const headers = {
-    Authorization: localStorage.getItem("access_token") || "",
+    Authorization: token ? `Bearer ${token}` : "",
+    "Content-Type":
+      requestType.toLowerCase() === "post" ? "application/json" : undefined,
   };
 
   try {
     let response;
 
     if (requestType.toLowerCase() === "post") {
-      headers["Content-Type"] = "application/json";
       response = await axios.post(url, data, { headers });
     } else if (requestType.toLowerCase() === "get") {
       const params =
@@ -30,31 +32,39 @@ async function networkRequest(
     }
 
     // Handle the response
-    if (response.data && response.data["success"]) {
+    if (response.data) {
       handleResponse(response.data);
     } else {
-      console.error(
-        "Error in response:",
-        response.data?.["message"] || "Unknown error"
-      );
+      console.error("Unexpected response format:", response);
     }
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { status } = error.response;
+    if (axios.isAxiosError(error)) {
+      const { response, request } = error;
 
-      if (status === 401) {
-        localStorage.clear();
-        window.location.href = "/login";
-        return;
+      if (response) {
+        const { status, data } = response;
+
+        // Check for specific status codes
+        if (status === 401) {
+          // Unauthorized: Clear token and redirect to login
+          localStorage.clear();
+          window.location.href = "/login";
+          return;
+        }
+
+        let errorMessage = data?.["message"] || "An unknown error occurred";
+        if (typeof errorMessage === "object") {
+          errorMessage = JSON.stringify(errorMessage);
+        }
+
+        console.error(`Axios error (Status: ${status}):`, errorMessage);
+      } else if (request) {
+        // Network error: no response received
+        console.error("Network error: No response received from the server.");
+      } else {
+        // Any other errors
+        console.error("Error setting up the request:", error.message);
       }
-
-      let errorMessage =
-        error.response.data?.["message"] || "An unknown error occurred";
-      if (typeof errorMessage === "object") {
-        errorMessage = JSON.stringify(errorMessage);
-      }
-
-      console.error("Axios error:", errorMessage);
     } else {
       console.error("Unexpected error:", error);
     }

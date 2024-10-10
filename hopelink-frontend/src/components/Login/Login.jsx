@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { networkRequest } from "../../utils/network_request";
+import { useLoading } from "../../utils/LoadingContext";
 
 const Login = () => {
+  const { setLoading } = useLoading();
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
@@ -27,11 +31,21 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
     if (passwordError) {
       alert("Please ensure the password meets the required criteria");
     } else {
-      alert(`Logging up as ${formState.username}`);
+      networkRequest(
+        "http://localhost:3000/login",
+        (response) => {
+          setLoading(false);
+          console.log(response);
+          navigate("/home");
+        },
+        "post",
+        formState
+      );
     }
   };
 

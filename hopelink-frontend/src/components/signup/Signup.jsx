@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
-
+import { networkRequest } from "../../utils/network_request";
 const SignUp = () => {
   const [formState, setFormState] = useState({
     username: "",
@@ -33,15 +33,28 @@ const SignUp = () => {
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formState.password !== formState.confirmPassword) {
       alert("Passwords do not match");
-    } else if (passwordError) {
-      alert("Please ensure the password meets the required criteria");
-    } else {
-      alert(`Signed up as ${formState.username}`);
+      return;
     }
+
+    if (passwordError) {
+      alert("Please ensure the password meets the required criteria");
+      return;
+    }
+
+    networkRequest(
+      "http://localhost:3000/signup",
+      (response) => {
+        alert(`Signed up as ${formState.username}`);
+        console.log(response);
+      },
+      "post",
+      formState
+    );
   };
 
   const toggleShowPassword = () => {

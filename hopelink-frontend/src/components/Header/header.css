@@ -1,22 +1,125 @@
 *{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+.header{
+    width: 100%;
+    height: 12vh;
+    background-color: #F5EFFF;
+    display: flex;
+    justify-content: center;
+   
+}
+.icons{
+    display: flex;
+    flex-direction: column;
+   
+    height: 100%;
+    color: #000;
+    justify-content: center;
+    align-items: center;
+   
+}
+.icons:hover .icon{
+    color: #006BFF; 
+}
+.navlink{
+    text-decoration: none;
+
+}
+
+.icon{
+    
+    color: #000;
+    width: 100%;
+}
+span{
+    align-items: center;
+    font-size: 10px;
+    text-align: center;
+    color: #000;
+    
+    
+
+}
 header{
     display: flex;
-    background-color: #b0aeae;
-    width: 100%;
-    border-radius: 12px;
+    background-color: #87A2FF;
+    width: 80%;
+    margin-top: 15px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 9vh;
 
+}
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 ul{
     display: flex;
-    gap: 30px;
-    text-decoration: none;
+    justify-content: center;
+    width: 70%;    
+    height: 9vh;
+   
+    align-items: center;
+
+    
 
 }
+
 li{
+    
+    list-style-type: none;
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+    width: 100%;
     text-decoration: none;
+    
+}
+.search{
+    display: flex;
     justify-content: center;
     align-items: center;
+    width:70%;
+    height: 5vh;
+
+    
+    left: 1;
+    background-color: #fff;
+    margin-left: 10px;
+}
+
+.searchbar{
+    padding-left: 10px;
+    outline: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffffff;
+    
+
+}
+
+.logo{
+    display: flex;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+ .logoimg{
+    border-radius: 12px ;
+    width: 80%;
+    height: 5vh;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    opacity:1;
+
 }

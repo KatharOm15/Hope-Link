@@ -1,8 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-// import backgroundImage from "./bg-img.png";
+import React from 'react';
+import { useNavigate,Link } from 'react-router-dom';
+import './landing.css'
+import logo from './landing.png'
+import Header from '../Header/Header'
+
+
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   const landingPageStyles = {
     height: "100vh",
     width: "100vw",
@@ -24,26 +29,28 @@ const LandingPage = () => {
     marginBottom: "20px",
     zIndex: 1,
   };
+  const handleSignupClick = () => {
+    navigate('/sign-up');
+  };
 
-  const buttonStyles = {
-    padding: "15px 30px",
-    fontSize: "1.2rem",
-    color: "white",
-    backgroundColor: "#007BFF",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-    zIndex: 1,
+
+  const handleLoginClick = () => {
+    navigate('/login');
   };
 
   return (
-    <div style={landingPageStyles}>
-      <p style={headingStyles}>Welcome to Our Platform</p>
-      <Link to="/">
-        <button style={buttonStyles}>Get Started</button>
-      </Link>
+    
+    <div className="main">        
+    <div className="container">
+      Hopelink
     </div>
+    <div className="getStarted">
+      <button onClick={handleSignupClick} className='btn-landing'>Get Started</button>
+    </div>
+  </div>
+  
+    
+    
   );
 };
 

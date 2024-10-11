@@ -4,16 +4,11 @@
   box-sizing: border-box;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #282c34;
-  font-family: "Arial", sans-serif;
-}
+
 
 .login-container {
+  background: #282c34;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +28,9 @@ body {
 }
 
 .login-title {
+  justify-content: center;
+  text-align: center;
+  color: #282c34;
   font-size: 34px;
   font-weight: bold;
   margin-bottom: 20%;
@@ -96,7 +94,7 @@ body {
   font-size: 18px;
   border-radius: 25px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition:  0.3s ease;
 }
 
 .submit-btn:hover {

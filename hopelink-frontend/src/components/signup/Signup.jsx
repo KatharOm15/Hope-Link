@@ -3,7 +3,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
 import { networkRequest } from "../../utils/network_request";
-
 const SignUp = () => {
   const [formState, setFormState] = useState({
     username: "",
@@ -155,11 +154,12 @@ const SignUp = () => {
         <br />
         <p>
           Already have an account?{" "}
-          <Link to="/" className="signup-link">
+          <Link to="/login" className="signup-link">
             Login
           </Link>
         </p>
       </div>
+    
     </div>
   );
 };

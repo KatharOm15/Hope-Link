@@ -37,6 +37,9 @@ const LandingPage = () => {
   const handleLoginClick = () => {
     navigate('/login');
   };
+  const handlePayment=()=>{
+    navigate('/payment')
+  }
 
   return (
     
@@ -46,6 +49,7 @@ const LandingPage = () => {
     </div>
     <div className="getStarted">
       <button onClick={handleSignupClick} className='btn-landing'>Get Started</button>
+      <button onClick={handlePayment} className='btn-landing'>Donate</button>
     </div>
   </div>
   

@@ -11,6 +11,7 @@ import Community from "./components/Community/Community";
 import Profile from "./components/Profile/Profile"
 import Post from "./components/Posts/Post";
 import Payment from './components/Payment/Payment';
+import Explore from "./components/Explore/Explore";
 
 const AppContent = () => {
 
@@ -43,12 +44,13 @@ const AppContent = () => {
             <Route path="about" element={< About/>} />
             <Route path="community" element={< Community/>} />
             <Route path="profile" element={< Profile/>} />   
+            <Route path="post" element={< Post/>} />   
         </Route>
           <Route path="/payment" element={<Payment />} >
               <Route path="payment-success" element={<Success />} />
               <Route path="payment-failure" element={<Failure />} />
           </Route>
-         
+          <Route path="/explore" element={< Explore/>} />   
 
       </Routes>
     </div>

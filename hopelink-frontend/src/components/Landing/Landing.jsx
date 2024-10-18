@@ -8,12 +8,11 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set the fade-in effect after the component mounts
     const timer = setTimeout(() => {
       setFadeIn(true);
-    }, 100); // Delay before the fade-in starts (100ms)
+    }, 100);
 
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -50,6 +49,9 @@ const LandingPage = () => {
           </button>
           <button
             className={`donate-now-button ${fadeIn ? "fade-in-top-down" : ""}`}
+            onClick={() => {
+              navigate("/payment");
+            }}
           >
             Donate Now
           </button>

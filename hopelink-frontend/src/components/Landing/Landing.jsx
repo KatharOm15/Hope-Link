@@ -1,60 +1,63 @@
-import React from 'react';
-import { useNavigate,Link } from 'react-router-dom';
-import './landing.css'
-import logo from './landing.png'
-import Header from '../Header/Header'
-
-
+import React, { useEffect, useState } from "react";
+import "./landing.css";
+import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const [fadeIn, setFadeIn] = useState(false);
   const navigate = useNavigate();
-  const landingPageStyles = {
-    height: "100vh",
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    color: "white",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    overflow: "hidden",
-    position: "relative",
-  };
 
-  const headingStyles = {
-    fontSize: "3rem",
-    marginBottom: "20px",
-    zIndex: 1,
-  };
-  const handleSignupClick = () => {
-    navigate('/sign-up');
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeIn(true);
+    }, 100);
 
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-  const handlePayment=()=>{
-    navigate('/payment')
-  }
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    
-    <div className="main">        
-    <div className="container">
-      Hopelink
+    <div className="outer-container">
+      <nav className="navbar">
+        <div className="nav-left">
+          <img src={logo} alt="Logo" className="logo" />
+          <span className="org-name">HOPE</span>
+        </div>
+        <div className="nav-right">
+          <div className="nav-item">HOME</div>
+          <div className="nav-item">ABOUT</div>
+          <div className="nav-item">SERVICES</div>
+          <div className="nav-item">CONTACT</div>
+          <div className="nav-item donate-button">DONATE</div>
+        </div>
+      </nav>
+
+      <div className="content-container">
+        <h1 className={`main-heading ${fadeIn ? "fade-in-top-down" : ""}`}>
+          Hope for Humanity
+        </h1>
+        <h6 className={`sub-heading ${fadeIn ? "fade-in-top-down" : ""}`}>
+          GIVE A HELPING HAND TO THOSE WHO NEED IT!
+        </h6>
+        <div className="button-group">
+          <button
+            className={`get-started-button ${fadeIn ? "fade-in-top-down" : ""}`}
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Get Started
+          </button>
+          <button
+            className={`donate-now-button ${fadeIn ? "fade-in-top-down" : ""}`}
+            onClick={() => {
+              navigate("/payment");
+            }}
+          >
+            Donate Now
+          </button>
+        </div>
+      </div>
     </div>
-    <div className="getStarted">
-      <button onClick={handleSignupClick} className='btn-landing'>Get Started</button>
-      <button onClick={handlePayment} className='btn-landing'>Donate</button>
-    </div>
-  </div>
-  
-    
-    
   );
 };
 

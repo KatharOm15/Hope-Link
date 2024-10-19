@@ -7,7 +7,8 @@ import Profile from "./components/Profile/Profile";
 import Post from "./components/Posts/Post";
 import Payment from "./components/Payment/Payment";
 import Feed from "./components/Feed/Feed";
-
+import Explore from "./components/Explore/Explore"
+import NgoDetail from "./components/NgoDetail/NgoDetail";
 const AppContent = () => {
   function Success() {
     return (
@@ -41,8 +42,10 @@ const AppContent = () => {
         <Route path="/dashboard" element={<Layout />}>
           <Route path="profile" element={<Profile />} />
           <Route path="post" element={<Post />} />
-          <Route path="feed" element={<Feed />} />
+          <Route path="" element={<Feed />} />
         </Route>
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/ngo-registration-form" element={<NgoDetail />} />
       </Routes>
     </div>
   );

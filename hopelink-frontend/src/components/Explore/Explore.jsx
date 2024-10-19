@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../Header/Header';
+import './explore.css'
 
 function Explore() {
 
@@ -24,19 +24,36 @@ function Explore() {
     
       if (loading) return <p>Loading...</p>;
       if (error) return <p>{error}</p>;
+
+      const handleClick=(e)=>{
+       if(e.target.value=="Water")
+          {
+            
+          }
+    }
     
       return (
-        <div>
-            <Header/>
-         
+        <div className='explore-main'>
+          <div className="explore-buttons">
+            <button className="explore-btn" onClick={handleClick} value="Water">Water</button>
+            <button className="explore-btn" onClick={handleClick} value="Education">Education</button>
+            <button className="explore-btn" onClick={handleClick} value="Land">Land</button>
+            <button className="explore-btn" onClick={handleClick} value="Child and Women">Child and Women</button>
+            <button className="explore-btn" onClick={handleClick} value="Animals">Animals</button>
+            <button className="explore-btn" onClick={handleClick} value="Forest">Forest</button>
+            <button className="explore-btn" onClick={handleClick} value="Other">Other</button>
+          </div>
+          <div className="explore-content">
           <ul>
             {
             data.map((item) => (
               <li key={item.id}>
-                {item.email}<br></br>{item.username}
+                {item.email}<br></br>{item.ngoName}
               </li>
             ))}
           </ul>
+          </div>
+          
         </div>
       );
      

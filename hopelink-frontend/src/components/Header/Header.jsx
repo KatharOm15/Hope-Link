@@ -22,7 +22,7 @@ export default function Header() {
         <nav>
           <ul>
             <li>
-              <NavLink className="navlink" to="feed">
+              <NavLink className="navlink" to="">
                 <div className="icons">
                   <CropOriginalIcon className="icon" />
                   <span className="icon">Feed</span>

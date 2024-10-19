@@ -7,6 +7,8 @@ import Profile from "./components/Profile/Profile";
 import Post from "./components/Posts/Post";
 import Payment from "./components/Payment/Payment";
 import Feed from "./components/Feed/Feed";
+import Explore from "./components/Explore/Explore";
+import Community from "./components/Community/Community";
 
 const AppContent = () => {
   function Success() {
@@ -32,6 +34,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/explore" element={<Explore />} />
 
         <Route path="/payment" element={<Payment />}>
           <Route path="payment-success" element={<Success />} />
@@ -42,6 +45,7 @@ const AppContent = () => {
           <Route path="profile" element={<Profile />} />
           <Route path="post" element={<Post />} />
           <Route path="feed" element={<Feed />} />
+          <Route path="community" element={<Community />} />
         </Route>
       </Routes>
     </div>

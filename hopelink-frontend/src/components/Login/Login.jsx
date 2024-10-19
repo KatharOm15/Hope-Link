@@ -88,10 +88,9 @@ function Login() {
       networkRequest(
         "http://localhost:3000/login",
         (response) => {
-          // setLoading(false);
-          console.log(response);
-          alert(response);
-          navigate("/home");
+          localStorage.setItem("access_token", response.token);
+          localStorage.setItem("user_id", response.user_id);
+          navigate("/dashboard");
         },
         "post",
         loginFormState
@@ -116,14 +115,12 @@ function Login() {
     networkRequest(
       "http://localhost:3000/signup",
       (response) => {
-        alert(response.message);
+        console.log(response);
         navigate("/login");
       },
       "post",
       formState
     );
-
-    alert(formState.username);
   };
 
   const toggleShowPassword = () => {

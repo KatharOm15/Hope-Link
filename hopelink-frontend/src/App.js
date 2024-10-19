@@ -47,6 +47,8 @@ const AppContent = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="community" element={<Community />} />
         </Route>
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/ngo-registration-form" element={<NgoDetail />} />
       </Routes>
     </div>
   );

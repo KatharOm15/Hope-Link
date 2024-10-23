@@ -12,7 +12,6 @@ function Login() {
     password: "",
     confirmPassword: "",
     email: "",
-    role: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,7 +27,6 @@ function Login() {
       password: "",
       confirmPassword: "",
       email: "",
-      role: "",
     });
   };
 
@@ -129,10 +127,6 @@ function Login() {
 
   const toggleShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleRoleChange = (role) => {
-    setFormState({ ...formState, role });
   };
 
   return (
@@ -248,7 +242,7 @@ function Login() {
                 </span>
               </div>
 
-              <div className="role-selection">
+              {/* <div className="role-selection">
                 <div className="role-buttons">
                   <button
                     type="button"
@@ -268,8 +262,8 @@ function Login() {
                   >
                     Volunteer
                   </button>
-                </div>
-              </div>
+                </div> 
+              </div>*/}
               <button type="submit" className="btn" onClick={handleSignUp}>
                 SIGN UP
               </button>

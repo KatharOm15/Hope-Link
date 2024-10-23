@@ -7,9 +7,29 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import logo from "../../assets/logo.png";
 import { Tooltip } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import axios from "axios";
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/logout");
+
+      if (response.status === 200) {
+        localStorage.clear();
+        alert("Successfully logged out.");
+
+        navigate("/");
+      } else {
+        alert("Logout failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
 
   return (
     <div className="component-wrapper">
@@ -75,6 +95,13 @@ export default function Header() {
                     </Tooltip>
                   </div>
                 </NavLink>
+              </li>
+              <li>
+                <div className="icons">
+                  <Tooltip title="Logout">
+                    <LogoutIcon className="icon" onClick={handleLogout} />
+                  </Tooltip>
+                </div>
               </li>
             </ul>
           </nav>

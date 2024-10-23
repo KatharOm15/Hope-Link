@@ -9,6 +9,8 @@ import Payment from "./components/Payment/Payment";
 import Feed from "./components/Feed/Feed";
 import Explore from "./components/Explore/Explore";
 import Community from "./components/Community/Community";
+import NgoSignUp from "./components/Ngo/NgoSignUp";
+import NgoSignIn from "./components/Ngo/NgoSignIn";
 
 const AppContent = () => {
   function Success() {
@@ -35,6 +37,8 @@ const AppContent = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/ngo/sign-up" element={<NgoSignUp />} />
+        <Route path="/ngo/sign-in" element={<NgoSignIn />} />
 
         <Route path="/payment" element={<Payment />}>
           <Route path="payment-success" element={<Success />} />
@@ -47,8 +51,6 @@ const AppContent = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="community" element={<Community />} />
         </Route>
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/ngo-registration-form" element={<NgoDetail />} />
       </Routes>
     </div>
   );

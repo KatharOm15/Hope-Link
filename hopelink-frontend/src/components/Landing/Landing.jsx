@@ -2,10 +2,36 @@ import React, { useEffect, useState } from "react";
 import "./landing.css";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import ChooseRole from "../Login/ChooseRole";
 
 const LandingPage = () => {
   const [fadeIn, setFadeIn] = useState(false);
   const navigate = useNavigate();
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
+
+  const openLoginPage = () => {
+    // Handle navigation to login page
+    alert("Navigate to Login Page");
+    closePopup();
+  };
+
+  const openVolunteerSignup = () => {
+    navigate("/login");
+    closePopup();
+  };
+
+  const openNgoSignup = () => {
+    navigate("/ngo/sign-up");
+    closePopup();
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,9 +67,7 @@ const LandingPage = () => {
         <div className="button-group">
           <button
             className={`get-started-button ${fadeIn ? "fade-in-top-down" : ""}`}
-            onClick={() => {
-              navigate("/login");
-            }}
+            onClick={openPopup}
           >
             Get Started
           </button>
@@ -57,6 +81,14 @@ const LandingPage = () => {
           </button>
         </div>
       </div>
+      {isPopupOpen && (
+        <ChooseRole
+          closeModal={closePopup}
+          openLoginPage={openLoginPage}
+          openVolunteerSignup={openVolunteerSignup}
+          openNgoSignup={openNgoSignup}
+        />
+      )}
     </div>
   );
 };

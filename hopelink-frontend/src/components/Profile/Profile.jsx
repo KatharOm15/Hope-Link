@@ -1,7 +1,31 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
+import axios from 'axios';
 import './profile.css';
 import Avatar from '@mui/material/Avatar'
+
+
+
+
+
 function Profile() {
+  
+  const [data, setData] = useState([]);
+  useEffect(
+    ()=>{
+      axios.get('http://localhost:3000/profile')
+      .then(response => {
+        setData(response.data);
+        // setLoading(false);
+      })
+      .catch(error => {
+        // setError('Error fetching data');
+        // setLoading(false);
+      });
+  }, []);
+    
+  
+
+
   const followers = 268; 
   const projects = [
     { name: 'Project A', date: '2024-01-15' },
@@ -96,6 +120,12 @@ function Profile() {
               </div>
             ))}
           </div>
+          {
+            data.map((item) => (
+              <li key={item._id}>
+               {item.amount}    {item.email}   {item.name} <br /><br /><br />
+              </li>
+            ))}
         </div>
       </div>
     </div>

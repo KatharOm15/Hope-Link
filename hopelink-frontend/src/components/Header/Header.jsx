@@ -40,7 +40,7 @@ export default function Header() {
           <nav>
             <ul>
               <li>
-                <NavLink className="navlink" to="feed">
+                <NavLink className="navlink" to="">
                   <div className="icons">
                     <Tooltip title="Feed">
                       <CropOriginalIcon className="icon" />

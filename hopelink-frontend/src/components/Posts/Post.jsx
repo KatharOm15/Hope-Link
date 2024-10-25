@@ -1,27 +1,28 @@
-import React, { useState ,useEffect} from 'react';
-import './post.css'
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  listAll,
-  list,
-} from "firebase/storage";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './post.css';
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { storage } from "./firebase";
-import { v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 function Post() {
   const [imageUpload, setImageUpload] = useState(null);
+  const [imageName, setImageName] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
+  const [postContent, setPostContent] = useState('');
+  const [tags, setTags] = useState('');
 
   const imagesListRef = ref(storage, "images/");
-  const uploadFile = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+
+  const uploadFile = async () => {
+    if (!imageUpload) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + uuidv4()}`);
+    
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        alert("file uploaded");
         setImageUrls((prev) => [...prev, url]);
+        submitPost("" + url); // Pass the URL to submit post data
+        alert("File uploaded and post submitted" + url);
       });
     });
   };
@@ -35,33 +36,35 @@ function Post() {
       });
     });
   }, []);
-   
-  const [postContent, setPostContent] = useState('');
-  const [tags, setTags] = useState('');
 
+  const submitPost = async (imageUrl) => {
+    const postData = {
+      postTitle: postContent,
+      postImg: imageUrl,
+      postTags: tags
+    };
 
-  
-
-  // const handleFileChange = (e) => {
-  //   setSelectedFile(e.target.files[0]);
-  // };
-
-  const handleTagsChange = (e) => {
-    setTags(e.target.value);
+    try {
+      await axios.post('http://localhost:3000/posts', postData); // replace with your backend URL
+      alert("Post submitted successfully!");
+      handleCancel();
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
   };
-
-
-
 
   const handleCancel = () => {
     setPostContent('');
     setTags('');
-    // setVisibility('Public');
+    setImageUpload(null);
+    setImageName(''); // Reset image name on cancel
   };
-  const handlePostChange=()=>{
-    setPostContent(postContent);
 
-  }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageUpload(file);
+    setImageName(file ? file.name : ''); // Set the image name
+  };
 
   return (
     <div className="add-post-container">
@@ -71,23 +74,24 @@ function Post() {
       <div className="add-post-content">
         <textarea
           value={postContent}
-          onChange={handlePostChange}
+          required
+          onChange={(e) => setPostContent(e.target.value)}
           placeholder="What do you want to talk about?"
           rows="5"
         />
         <div className="post-actions">
           <label htmlFor="file-upload" className="custom-file-upload">
-            <input type="file" id="file-upload"  onChange={(event) => {
-          setImageUpload(event.target.files[0]);
-        }} />
+            <input type="file" required id="file-upload" onChange={handleFileChange} />
             Add Image/Video
           </label>
+          {imageName && <span className="file-name">{imageName}</span>} {/* Display selected file name */}
         </div>
         <div className="post-tags">
           <input
             type="text"
+            required
             value={tags}
-            onChange={handleTagsChange}
+            onChange={(e) => setTags(e.target.value)}
             placeholder="Add tags (e.g., #technology, @JohnDoe)"
           />
         </div>
@@ -96,13 +100,13 @@ function Post() {
         <button className="btn cancel" onClick={handleCancel}>
           Cancel
         </button>
-        <button className="btn post"  onClick={uploadFile}>
+        <button className="btn post" onClick={uploadFile}>
           Post
         </button>
       </div>
-      {imageUrls.map((url) => {
-        return <img  src={url} />;
-      })}
+      {imageUrls.map((url, index) => (
+        <img key={index} src={url} alt="Uploaded Post" />
+      ))}
     </div>
   );
 }

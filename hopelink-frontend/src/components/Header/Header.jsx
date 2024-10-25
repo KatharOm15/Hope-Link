@@ -7,9 +7,16 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import logo from "../../assets/logo.png";
 import { Tooltip } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    alert("Successfully logged out.");
+    navigate("/");
+  };
 
   return (
     <div className="component-wrapper">
@@ -75,6 +82,13 @@ export default function Header() {
                     </Tooltip>
                   </div>
                 </NavLink>
+              </li>
+              <li>
+                <div className="icons">
+                  <Tooltip title="Logout">
+                    <LogoutIcon className="icon" onClick={handleLogout} />
+                  </Tooltip>
+                </div>
               </li>
             </ul>
           </nav>

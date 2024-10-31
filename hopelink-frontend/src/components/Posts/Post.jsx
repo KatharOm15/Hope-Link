@@ -1,42 +1,69 @@
-import React, { useState } from 'react';
-import './post.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './post.css';
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { storage } from "./firebase";
+import { v4 as uuidv4 } from "uuid";
 
 function Post() {
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageName, setImageName] = useState('');
+  const [imageUrls, setImageUrls] = useState([]);
   const [postContent, setPostContent] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
   const [tags, setTags] = useState('');
-  const [visibility, setVisibility] = useState('Public');
 
-  const handlePostChange = (e) => {
-    setPostContent(e.target.value);
+  const imagesListRef = ref(storage, "images/");
+
+  const uploadFile = async () => {
+    if (!imageUpload) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + uuidv4()}`);
+    
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageUrls((prev) => [...prev, url]);
+        submitPost("" + url); // Pass the URL to submit post data
+        alert("File uploaded and post submitted" + url);
+      });
+    });
   };
 
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
+  useEffect(() => {
+    listAll(imagesListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImageUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+  }, []);
 
-  const handleTagsChange = (e) => {
-    setTags(e.target.value);
-  };
+  const submitPost = async (imageUrl) => {
+    const postData = {
+      postTitle: postContent,
+      postImg: imageUrl,
+      postTags: tags
+    };
 
-  const handleVisibilityChange = (e) => {
-    setVisibility(e.target.value);
-  };
-
-  const handlePost = () => {
-    // Handle post logic here (submit to backend, etc.)
-    alert('Post created!');
-    setPostContent('');
-    setSelectedFile(null);
-    setTags('');
-    setVisibility('Public');
+    try {
+      await axios.post('http://localhost:3000/posts', postData); // replace with your backend URL
+      alert("Post submitted successfully!");
+      handleCancel();
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
   };
 
   const handleCancel = () => {
     setPostContent('');
-    setSelectedFile(null);
     setTags('');
-    setVisibility('Public');
+    setImageUpload(null);
+    setImageName(''); // Reset image name on cancel
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageUpload(file);
+    setImageName(file ? file.name : ''); // Set the image name
   };
 
   return (
@@ -47,42 +74,39 @@ function Post() {
       <div className="add-post-content">
         <textarea
           value={postContent}
-          onChange={handlePostChange}
+          required
+          onChange={(e) => setPostContent(e.target.value)}
           placeholder="What do you want to talk about?"
           rows="5"
         />
         <div className="post-actions">
           <label htmlFor="file-upload" className="custom-file-upload">
-            <input type="file" id="file-upload" onChange={handleFileChange} />
+            <input type="file" required id="file-upload" onChange={handleFileChange} />
             Add Image/Video
           </label>
-          {selectedFile && <p>File selected: {selectedFile.name}</p>}
+          {imageName && <span className="file-name">{imageName}</span>} {/* Display selected file name */}
         </div>
         <div className="post-tags">
           <input
             type="text"
+            required
             value={tags}
-            onChange={handleTagsChange}
+            onChange={(e) => setTags(e.target.value)}
             placeholder="Add tags (e.g., #technology, @JohnDoe)"
           />
-        </div>
-        <div className="post-visibility">
-          <label>Visibility: </label>
-          <select value={visibility} onChange={handleVisibilityChange}>
-            <option value="Public">Public</option>
-            <option value="Connections">Connections only</option>
-            <option value="Private">Only me</option>
-          </select>
         </div>
       </div>
       <div className="add-post-footer">
         <button className="btn cancel" onClick={handleCancel}>
           Cancel
         </button>
-        <button className="btn post" onClick={handlePost}>
+        <button className="btn post" onClick={uploadFile}>
           Post
         </button>
       </div>
+      {imageUrls.map((url, index) => (
+        <img key={index} src={url} alt="Uploaded Post" />
+      ))}
     </div>
   );
 }

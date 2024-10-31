@@ -40,15 +40,15 @@ const AppContent = () => {
         <Route path="/ngo/sign-up" element={<NgoSignUp />} />
         <Route path="/ngo/sign-in" element={<NgoSignIn />} />
 
-        <Route path="/payment" element={<Payment />}>
-          <Route path="payment-success" element={<Success />} />
-          <Route path="payment-failure" element={<Failure />} />
-        </Route>
+        <Route path="/payment" element={<Payment />}></Route>
+          <Route path="/payment-success" element={<Success />} />
+          <Route path="/payment-failure" element={<Failure />} />
+        
 
         <Route path="/dashboard" element={<Layout />}>
           <Route path="profile" element={<Profile />} />
           <Route path="post" element={<Post />} />
-          <Route path="feed" element={<Feed />} />
+          <Route path="" element={<Feed />} />
           <Route path="community" element={<Community />} />
         </Route>
       </Routes>

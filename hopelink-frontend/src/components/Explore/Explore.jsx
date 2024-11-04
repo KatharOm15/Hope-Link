@@ -22,12 +22,28 @@ function Explore() {
       });
   }, []);
 
-  const handleJoinToggle = (id) => {
-    setJoinedIds((prevIds) =>
-      prevIds.has(id)
-        ? new Set([...prevIds].filter((item) => item !== id))
-        : new Set(prevIds.add(id))
-    );
+  const handleJoinToggle = async (id) => {
+    try {
+      const response = await axios.post("http://localhost:3000/ngo/join", {
+        userId: localStorage.getItem("user_id"), // Replace with the actual user ID
+        ngoId: id,
+      });
+
+      // Update joined IDs based on response status
+      if (response.data.request.status === "Withdrawn") {
+        setJoinedIds(
+          (prevIds) => new Set([...prevIds].filter((item) => item !== id))
+        );
+      } else {
+        setJoinedIds((prevIds) => new Set(prevIds.add(id)));
+      }
+
+      // Notify the user of the action taken
+      alert(response.data.message); // Replace with a toast notification in production
+    } catch (error) {
+      console.error("Failed to process join request", error);
+      alert("Failed to process join request");
+    }
   };
 
   const handleSearchChange = (e) => {

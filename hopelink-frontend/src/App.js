@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login/Login";
 import { LoadingProvider } from "./utils/LoadingContext";
 import Landing from "./components/Landing/Landing";
@@ -36,19 +36,20 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/explore" element={<Explore />} />
         <Route path="/ngo/sign-up" element={<NgoSignUp />} />
         <Route path="/ngo/sign-in" element={<NgoSignIn />} />
 
         <Route path="/payment" element={<Payment />}></Route>
-          <Route path="/payment-success" element={<Success />} />
-          <Route path="/payment-failure" element={<Failure />} />
-        
+        <Route path="/payment-success" element={<Success />} />
+        <Route path="/payment-failure" element={<Failure />} />
 
         <Route path="/dashboard" element={<Layout />}>
+          {" "}
+          <Route index element={<Navigate to="explore" />} />
+          <Route path="explore" element={<Explore />} />
           <Route path="profile" element={<Profile />} />
           <Route path="post" element={<Post />} />
-          <Route path="" element={<Feed />} />
+          <Route path="feed" element={<Feed />} />
           <Route path="community" element={<Community />} />
         </Route>
       </Routes>

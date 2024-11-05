@@ -1,0 +1,46 @@
+.notifications-container {
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notification-item span {
+  font-size: 14px;
+  color: #333;
+}
+
+.notification-item hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
+}
+
+.notifications-container p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 14px;
+}

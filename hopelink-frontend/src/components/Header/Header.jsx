@@ -1,6 +1,5 @@
 import "./header.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleIcon from "@mui/icons-material/People";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -8,14 +7,24 @@ import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import logo from "../../assets/logo.png";
 import { Tooltip } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import Notification from "../Notification/Notification";
+import { useState } from "react";
 
 export default function Header() {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     localStorage.clear();
     alert("Successfully logged out.");
     navigate("/");
+  };
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
   };
 
   return (
@@ -40,14 +49,23 @@ export default function Header() {
               HOPE
             </span>
           </div>
-          <div className="search">
+          {/* <div className="search">
             <SearchIcon className="search-icon" />
             <input type="text" className="searchbar" placeholder="Search" />
-          </div>
+          </div> */}
           <nav>
             <ul>
               <li>
-                <NavLink className="navlink" to="">
+                <NavLink className="navlink" to="explore">
+                  <div className="icons">
+                    <Tooltip title="Explore">
+                      <TravelExploreIcon className="icon" />
+                    </Tooltip>
+                  </div>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="navlink" to="feed">
                   <div className="icons">
                     <Tooltip title="Feed">
                       <CropOriginalIcon className="icon" />
@@ -56,7 +74,6 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                {" "}
                 <NavLink className="navlink" to="post">
                   <div className="icons">
                     <Tooltip title="Post">
@@ -82,6 +99,20 @@ export default function Header() {
                     </Tooltip>
                   </div>
                 </NavLink>
+              </li>
+              <li>
+                <div className="icons" onClick={toggleNotifications}>
+                  <Tooltip title="Notifications">
+                    <NotificationsActiveIcon className="icon" />
+                  </Tooltip>
+                </div>
+                {showNotifications && (
+                  <Notification
+                    userId={userId}
+                    show={showNotifications}
+                    toggle={toggleNotifications}
+                  />
+                )}
               </li>
               <li>
                 <div className="icons">

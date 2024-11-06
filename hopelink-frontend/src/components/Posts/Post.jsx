@@ -41,7 +41,8 @@ function Post() {
     const postData = {
       postTitle: postContent,
       postImg: imageUrl,
-      postTags: tags
+      postTags: tags,
+      userId:localStorage.getItem("user_id")||localStorage.getItem("ngo_id")
     };
 
     try {
@@ -104,9 +105,9 @@ function Post() {
           Post
         </button>
       </div>
-      {imageUrls.map((url, index) => (
+      {/* {imageUrls.map((url, index) => (
         <img key={index} src={url} alt="Uploaded Post" />
-      ))}
+      ))} */}
     </div>
   );
 }

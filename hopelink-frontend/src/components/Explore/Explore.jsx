@@ -7,9 +7,11 @@ function Explore() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [joinedIds, setJoinedIds] = useState(new Set());
+  const [requestStatus, setRequestStatus] = useState({}); // Track each NGO's join status
+  const userId = localStorage.getItem("user_id");
 
   useEffect(() => {
+    // Fetch all NGOs
     axios
       .get("http://localhost:3000/ngo/get-all-ngo")
       .then((response) => {
@@ -17,17 +19,48 @@ function Explore() {
         setLoading(false);
       })
       .catch((error) => {
+        console.error("Error fetching NGOs data", error);
         setError("Error fetching data");
         setLoading(false);
       });
+
+    // Fetch join requests for this user
+    axios
+      .get(`http://localhost:3000/ngo/get-users-requests/${userId}`)
+      .then((response) => {
+        const statusMap = {};
+        response.data.forEach((request) => {
+          if (request.status === "Pending") {
+            statusMap[request.ngoId] = "Pending"; // Status is "Pending" if request is not yet accepted
+          }
+        });
+        setRequestStatus(statusMap);
+      })
+      .catch((error) => console.error("Failed to fetch join requests", error));
   }, []);
 
-  const handleJoinToggle = (id) => {
-    setJoinedIds((prevIds) =>
-      prevIds.has(id)
-        ? new Set([...prevIds].filter((item) => item !== id))
-        : new Set(prevIds.add(id))
-    );
+  const handleJoinToggle = async (id) => {
+    try {
+      const response = await axios.post("http://localhost:3000/ngo/join", {
+        userId,
+        ngoId: id,
+      });
+
+      if (response.data.request.status === "Withdrawn") {
+        setRequestStatus((prevStatus) => {
+          const newStatus = { ...prevStatus };
+          delete newStatus[id];
+          return newStatus;
+        });
+      } else if (response.data.request.status === "Pending") {
+        setRequestStatus((prevStatus) => ({ ...prevStatus, [id]: "Pending" })); // Set status to "Pending" when joined
+      }
+
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Failed to process join request", error);
+      alert("Failed to process join request");
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -104,11 +137,13 @@ function Explore() {
               </a>
               <button
                 className={`join-btn ${
-                  joinedIds.has(item._id) ? "withdraw" : "join"
+                  requestStatus[item._id] === "Pending" ? "withdraw" : "join"
                 }`}
                 onClick={() => handleJoinToggle(item._id)}
               >
-                {joinedIds.has(item._id) ? "Withdraw" : "Join Request"}
+                {requestStatus[item._id] === "Pending"
+                  ? "Withdraw"
+                  : "Join Request"}
               </button>
             </div>
           ))}

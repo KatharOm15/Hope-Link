@@ -14,7 +14,8 @@ import { useState } from "react";
 
 export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
-  const userId = localStorage.getItem("user_id");
+  const userId =
+    localStorage.getItem("user_id") || localStorage.getItem("ngo_id");
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -108,7 +109,7 @@ export default function Header() {
                 </div>
                 {showNotifications && (
                   <Notification
-                    userId={userId}
+                    id={userId}
                     show={showNotifications}
                     toggle={toggleNotifications}
                   />

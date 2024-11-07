@@ -1,26 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./Notification.css";
 
-const Notifications = ({ userId, toggle }) => {
+const Notifications = ({ id, toggle }) => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const dropdownRef = useRef(null); // Create a ref for the dropdown
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click is outside the dropdown
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        toggle(); // Close the dropdown
+        toggle();
       }
     };
 
-    // Add event listener
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Clean up event listener on unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -30,12 +27,11 @@ const Notifications = ({ userId, toggle }) => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/ngo/get-users-requests/${userId}`
+          `http://localhost:3000/notification/get-notifications/${id}`
         );
-        console.log(response.data);
         setNotifications(response.data);
       } catch (error) {
-        console.error("Error fetching Notifications", error);
+        console.error("Error fetching notifications", error);
         setError("Error fetching notifications");
       } finally {
         setLoading(false);
@@ -43,16 +39,17 @@ const Notifications = ({ userId, toggle }) => {
     };
 
     fetchNotifications();
-  }, [userId]); // Adding userId as a dependency to refetch when it changes
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString(); // Format date to a readable format
+    return date.toLocaleString();
   };
 
   return (
-    <div className="notifications-container">
-      <h2>Notifications</h2>
+    <div className="notifications-container" ref={dropdownRef}>
+      <h2 className="notification-header">Notifications</h2>
+      <br />
       {loading ? (
         <p>Loading notifications...</p>
       ) : error ? (
@@ -62,12 +59,16 @@ const Notifications = ({ userId, toggle }) => {
       ) : (
         <ul className="notifications-list">
           {notifications.map((notification) => (
-            <li key={notification._id} className="notification-item">
+            <li
+              key={notification._id}
+              className={`notification-item ${
+                notification.isRead ? "read" : "unread"
+              }`}
+            >
               <div className="notification-details">
-                <span>Status: {notification.status}</span>
-                <span>Created At: {formatDate(notification.createdAt)}</span>
+                <span>{notification.message}</span>
+                <span>{formatDate(notification.createdAt)}</span>
               </div>
-              <hr />
             </li>
           ))}
         </ul>

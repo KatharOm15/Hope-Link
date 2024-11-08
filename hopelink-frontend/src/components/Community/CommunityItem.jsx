@@ -35,12 +35,12 @@ export default function CommunityItem({ community, onSelect }) {
     <div className="list-item" onClick={onSelect} style={styles.listItem}>
       <Avatar
         src="https://via.placeholder.com/40"
-        alt="Pod Profile"
+        alt="Profile"
         style={styles.profileImage}
       />
       <div className="list-item-text" style={styles.listItemText}>
         <span className="list-item-name" style={styles.listItemName}>
-          {community.username}
+          {community.ngoName}
         </span>
         {/* <span
           className="list-item-description"

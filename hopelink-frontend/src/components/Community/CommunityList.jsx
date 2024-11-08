@@ -64,10 +64,10 @@ export default function CommunityList({ onSelectCommunity }) {
   useEffect(() => {
     const fetchUserCommunity = async () => {
       axios
-        .get("http://localhost:3000/login/getallusers")
+        .get(`http://localhost:3000/ngo/${userId}/connected-ngo-details`)
         .then((response) => {
-          setCommunityList(response.data);
-          console.log(response.data); // Logs all users from the database
+          setCommunityList(response.data.connectedNgos);
+          console.log(response.data.connectedNgos);
         })
         .catch((error) => {
           console.error("Error fetching all users:", error);

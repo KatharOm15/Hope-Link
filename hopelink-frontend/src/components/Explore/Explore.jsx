@@ -94,7 +94,6 @@ function Explore() {
             "Child and Women",
             "Animals",
             "Forest",
-            "Other",
           ].map((category) => (
             <button
               key={category}

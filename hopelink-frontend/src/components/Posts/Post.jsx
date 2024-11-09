@@ -22,7 +22,7 @@ function Post() {
       getDownloadURL(snapshot.ref).then((url) => {
         setImageUrls((prev) => [...prev, url]);
         submitPost("" + url); // Pass the URL to submit post data
-        alert("File uploaded and post submitted" + url);
+       
       });
     });
   };
@@ -47,7 +47,7 @@ function Post() {
 
     try {
       await axios.post('http://localhost:3000/posts', postData); // replace with your backend URL
-      alert("Post submitted successfully!");
+      alert("Your work is posted");
       handleCancel();
     } catch (error) {
       console.error("Error submitting post:", error);
@@ -105,9 +105,7 @@ function Post() {
           Post
         </button>
       </div>
-      {/* {imageUrls.map((url, index) => (
-        <img key={index} src={url} alt="Uploaded Post" />
-      ))} */}
+     
     </div>
   );
 }

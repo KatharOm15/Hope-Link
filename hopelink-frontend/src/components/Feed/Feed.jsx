@@ -23,7 +23,7 @@ function Feed() {
           <div className="post-header">
             <div className="user-info">
               <h4>{post.postTitle}</h4>
-              <p>{post.userId}</p>
+             
             </div>
           </div>
           <div className="post-content">

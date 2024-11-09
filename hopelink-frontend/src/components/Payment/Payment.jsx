@@ -8,7 +8,8 @@ const Payment = () => {
     name: '',
     email: '',
     mobileNumber: '',
-    amount: ''
+    amount: '',
+    userId:localStorage.getItem("user_id")
   });
 
   const handleChange = (e) => {

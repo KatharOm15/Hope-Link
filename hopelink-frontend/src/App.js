@@ -11,6 +11,7 @@ import Explore from "./components/Explore/Explore";
 import Community from "./components/Community/Community";
 import NgoSignUp from "./components/Ngo/NgoSignUp";
 import NgoSignIn from "./components/Ngo/NgoSignIn";
+import Task from "./components/Task/Task";
 
 const AppContent = () => {
   function Success() {
@@ -52,6 +53,7 @@ const AppContent = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="community" element={<Community />} />
         </Route>
+        <Route path="/assign-task" element={<Task/>}/>
       </Routes>
     </div>
   );

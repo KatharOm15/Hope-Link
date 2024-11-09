@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./explore.css";
 
 function Explore() {
@@ -9,6 +10,10 @@ function Explore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [requestStatus, setRequestStatus] = useState({}); // Track each NGO's join status
   const userId = localStorage.getItem("user_id");
+
+  const navigate = useNavigate();
+
+  
 
   useEffect(() => {
     // Fetch all NGOs
@@ -144,6 +149,14 @@ function Explore() {
                   ? "Withdraw"
                   : "Join Request"}
               </button>
+              <button
+            className={`donate-now-button `}
+            onClick={() => {
+              navigate("/payment");
+            }}
+          >
+            Donate Now
+          </button>
             </div>
           ))}
         </div>

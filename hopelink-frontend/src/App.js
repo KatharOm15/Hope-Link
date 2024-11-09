@@ -56,7 +56,12 @@ const AppContent = () => {
           }
         >
           {" "}
-          <Route index element={<Navigate to="explore" />} />
+          <Route
+            index
+            element={
+              localStorage.getItem("user_id") ? <Explore /> : <NgoProfile />
+            }
+          />
           <Route
             path="explore"
             element={

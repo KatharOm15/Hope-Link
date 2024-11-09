@@ -65,15 +65,17 @@ export default function Header() {
           </div> */}
           <nav>
             <ul>
-              <li>
-                <NavLink className="navlink" to="explore">
-                  <div className="icons">
-                    <Tooltip title="Explore">
-                      <TravelExploreIcon className="icon" />
-                    </Tooltip>
-                  </div>
-                </NavLink>
-              </li>
+              {!ngoId && (
+                <li>
+                  <NavLink className="navlink" to="explore">
+                    <div className="icons">
+                      <Tooltip title="Explore">
+                        <TravelExploreIcon className="icon" />
+                      </Tooltip>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
               <li>
                 <NavLink className="navlink" to="feed">
                   <div className="icons">

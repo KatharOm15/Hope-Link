@@ -12,6 +12,7 @@ import NgoSignUp from "./components/Ngo/NgoSignUp";
 import NgoSignIn from "./components/Ngo/NgoSignIn";
 import VolunteerProfile from "./components/Profile/VolunteerProfile";
 import NgoProfile from "./components/Profile/NgoProfile";
+import Task from "./components/Task/Task";
 
 const AppContent = () => {
   function Success() {
@@ -122,6 +123,7 @@ const AppContent = () => {
             }
           />
         </Route>
+        <Route path="/assign-task" element={<Task/>}/>
       </Routes>
     </div>
   );

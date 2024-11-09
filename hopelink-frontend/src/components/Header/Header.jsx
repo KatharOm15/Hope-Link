@@ -14,8 +14,7 @@ import { useState } from "react";
 
 export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
-  const userId =
-    localStorage.getItem("user_id") || localStorage.getItem("ngo_id");
+  const id = localStorage.getItem("user_id") || localStorage.getItem("ngo_id");
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -27,6 +26,16 @@ export default function Header() {
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications);
   };
+
+  const ngoId = localStorage.getItem("ngo_id");
+  const userId = localStorage.getItem("user_id");
+
+  // Conditionally render the link based on which ID is in localStorage
+  const profileLink = ngoId
+    ? `ngo-profile` // If 'ngo_id' exists, navigate to the NGO profile page
+    : userId
+    ? `volunteer-profile` // If 'user_id' exists, navigate to the volunteer profile page
+    : "/"; // Fallback, you can set a default route
 
   return (
     <div className="component-wrapper">
@@ -93,7 +102,7 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink className="navlink" to="profile">
+                <NavLink className="navlink" to={profileLink}>
                   <div className="icons">
                     <Tooltip title="Profile">
                       <ManageAccountsIcon className="icon" />
@@ -109,7 +118,7 @@ export default function Header() {
                 </div>
                 {showNotifications && (
                   <Notification
-                    id={userId}
+                    id={id}
                     show={showNotifications}
                     toggle={toggleNotifications}
                   />

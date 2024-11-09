@@ -3,7 +3,6 @@ import Login from "./components/Login/Login";
 import { LoadingProvider } from "./utils/LoadingContext";
 import Landing from "./components/Landing/Landing";
 import Layout from "./Layout";
-import Profile from "./components/Profile/Profile";
 import Post from "./components/Posts/Post";
 import Payment from "./components/Payment/Payment";
 import Feed from "./components/Feed/Feed";
@@ -11,6 +10,8 @@ import Explore from "./components/Explore/Explore";
 import Community from "./components/Community/Community";
 import NgoSignUp from "./components/Ngo/NgoSignUp";
 import NgoSignIn from "./components/Ngo/NgoSignIn";
+import VolunteerProfile from "./components/Profile/VolunteerProfile";
+import NgoProfile from "./components/Profile/NgoProfile";
 import Task from "./components/Task/Task";
 
 const AppContent = () => {
@@ -44,14 +45,78 @@ const AppContent = () => {
         <Route path="/payment-success" element={<Success />} />
         <Route path="/payment-failure" element={<Failure />} />
 
-        <Route path="/dashboard" element={<Layout />}>
+        <Route
+          path="/dashboard"
+          element={
+            localStorage.getItem("access_token") ? (
+              <Layout />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        >
           {" "}
           <Route index element={<Navigate to="explore" />} />
-          <Route path="explore" element={<Explore />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="post" element={<Post />} />
-          <Route path="feed" element={<Feed />} />
-          <Route path="community" element={<Community />} />
+          <Route
+            path="explore"
+            element={
+              localStorage.getItem("access_token") ? (
+                <Explore />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="volunteer-profile"
+            element={
+              localStorage.getItem("access_token") ? (
+                <VolunteerProfile />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="ngo-profile"
+            element={
+              localStorage.getItem("access_token") ? (
+                <NgoProfile />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="post"
+            element={
+              localStorage.getItem("access_token") ? (
+                <Post />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="feed"
+            element={
+              localStorage.getItem("access_token") ? (
+                <Feed />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="community"
+            element={
+              localStorage.getItem("access_token") ? (
+                <Community />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
         </Route>
         <Route path="/assign-task" element={<Task/>}/>
       </Routes>

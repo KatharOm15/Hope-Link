@@ -1,0 +1,33 @@
+/* NgoProfile.css */
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card .MuiCardContent-root {
+  padding: 24px;
+}
+
+.card h4 {
+  font-weight: 600;
+}
+
+.card .MuiTypography-root {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.volunteer-btn {
+  margin-top: 20px;
+  padding: 10px 15px;
+  font-size: 16px;
+}

@@ -18,7 +18,7 @@ function Explore() {
   useEffect(() => {
     // Fetch all NGOs
     axios
-      .get("http://localhost:3000/ngo/get-all-ngo")
+      .get(`http://localhost:3000/ngo/get-all-ngo${userId}`)
       .then((response) => {
         setData(response.data);
         setLoading(false);

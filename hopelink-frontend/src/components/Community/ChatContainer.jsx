@@ -230,7 +230,7 @@ export default function ChatContainer({ community, isOpen }) {
         />
         <div className="community-info" style={styles.communityInfo}>
           <span className="community-name" style={styles.communityName}>
-            {community.username}
+            {community.ngoName}
           </span>
           {/* <span
             className="community-description"

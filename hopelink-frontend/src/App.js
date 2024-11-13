@@ -56,12 +56,9 @@ const AppContent = () => {
           }
         >
           {" "}
-          <Route
-            index
-            element={
+          <Route index element={
               localStorage.getItem("user_id") ? <Explore /> : <NgoProfile />
-            }
-          />
+            } />
           <Route
             path="explore"
             element={
@@ -122,8 +119,18 @@ const AppContent = () => {
               )
             }
           />
+          <Route
+          path="assigin-task"
+          element={
+            localStorage.getItem("access_token") ? (
+              <Task />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+          />
         </Route>
-        <Route path="/assign-task" element={<Task/>}/>
+        
       </Routes>
     </div>
   );

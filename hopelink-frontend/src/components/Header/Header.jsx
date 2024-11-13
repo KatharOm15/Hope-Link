@@ -9,6 +9,7 @@ import { Tooltip } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import Notification from "../Notification/Notification";
 import { useState } from "react";
 
@@ -71,6 +72,17 @@ export default function Header() {
                     <div className="icons">
                       <Tooltip title="Explore">
                         <TravelExploreIcon className="icon" />
+                      </Tooltip>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
+              {!userId && (
+                <li>
+                  <NavLink className="navlink" to="assigin-task">
+                    <div className="icons">
+                      <Tooltip title="Task">
+                        <AddTaskIcon className="icon" />
                       </Tooltip>
                     </div>
                   </NavLink>

@@ -11,9 +11,12 @@ import {
   Divider,
   IconButton,
   CircularProgress,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material"; // Import the icons
 import axios from "axios";
+import PostsSection from "./PostsSection";
 
 const NgoProfile = () => {
   const [ngoInfo, setNgoInfo] = useState({});
@@ -21,6 +24,7 @@ const NgoProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const ngoId = localStorage.getItem("ngo_id");
+  const [selectedTab, setSelectedTab] = useState(0);
 
   useEffect(() => {
     const fetchNgoData = async () => {
@@ -226,6 +230,7 @@ const NgoProfile = () => {
             </CardContent>
           </Card>
         </Grid>
+        <PostsSection ngoId={ngoId} />
       </Grid>
     </Container>
   );

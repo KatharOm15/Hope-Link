@@ -114,7 +114,9 @@ function Login() {
       "http://localhost:3000/signup",
       (response) => {
         console.log(response);
+        alert(response.message);
         navigate("/login");
+        resetForm();
       },
       "post",
       formState

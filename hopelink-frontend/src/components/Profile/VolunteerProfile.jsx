@@ -50,11 +50,19 @@ const VolunteerProfile = () => {
         setPosts(postsResponse.data);
 
         setLoading(false);
+
+        const donationAmt=await axios.get(`http://localhost:3000/login/profile/${id}/donation`);
+        setDonations(donationAmt.data);
+        setLoading(false);
+
       } catch (error) {
         console.error("Error loading profile data", error);
         setError("Error loading profile data");
         setLoading(false);
       }
+     
+
+
     };
 
     fetchProfileData();

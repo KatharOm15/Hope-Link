@@ -152,7 +152,7 @@ function Explore() {
               <button
             className={`donate-now-button `}
             onClick={() => {
-              navigate("/payment");
+              navigate("/payment",{ state: { ngoId: item._id } });
             }}
           >
             Donate Now

@@ -86,15 +86,19 @@ const PostsSection = ({ ngoId }) => {
                   <Grid container spacing={3}>
                     {myPosts.map((post) => (
                       <Grid item xs={12} sm={6} md={4} key={post._id}>
-                        <div className="post-card">
-                          <img
-                            src={post.postImg}
-                            alt={post.postTitle}
-                            className="post-image"
-                          />
-                          <h1 className="post-title">{post.postTitle}</h1>
-                          <p className="post-tags"> {post.postTags}</p>
-                        </div>
+                        <Card variant="outlined">
+                          <CardContent>
+                            <div className="post-thumbnail">
+                              <img
+                                src={post.postImg}
+                                alt={post.postTitle}
+                                className="post-image"
+                              />
+                              <h1 className="post-title">{post.postTitle}</h1>
+                              <p className="post-tags"> {post.postTags}</p>
+                            </div>{" "}
+                          </CardContent>
+                        </Card>
                       </Grid>
                     ))}
                   </Grid>
@@ -115,15 +119,19 @@ const PostsSection = ({ ngoId }) => {
                   <Grid container spacing={3}>
                     {posts.map((post) => (
                       <Grid item xs={12} sm={6} md={4} key={post._id}>
-                        <div className="post-card">
-                          <img
-                            src={post.postImg}
-                            alt={post.postTitle}
-                            className="post-image"
-                          />
-                          <h1 className="post-title">{post.postTitle}</h1>
-                          <p className="post-tags"> {post.postTags}</p>
-                        </div>
+                        <Card variant="outlined">
+                          <CardContent>
+                            <div className="post-thumbnail">
+                              <img
+                                src={post.postImg}
+                                alt={post.postTitle}
+                                className="post-image"
+                              />
+                              <h1 className="post-title">{post.postTitle}</h1>
+                              <p className="post-tags"> {post.postTags}</p>
+                            </div>{" "}
+                          </CardContent>
+                        </Card>
                       </Grid>
                     ))}
                   </Grid>

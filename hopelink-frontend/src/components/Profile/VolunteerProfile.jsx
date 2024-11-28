@@ -61,7 +61,9 @@ const VolunteerProfile = () => {
         setPosts(postsResponse.data);
 
         // Fetch donations
-        const donationAmt = await axios.get(`http://localhost:3000/login/profile/${id}/donation`);
+        const donationAmt = await axios.get(
+          `http://localhost:3000/login/profile/${id}/donation`
+        );
         setDonations(donationAmt.data);
 
         setLoading(false);
@@ -233,9 +235,11 @@ const VolunteerProfile = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Registration Number</TableCell>
-                    <TableCell>Contact</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Registration Number
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Contact</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

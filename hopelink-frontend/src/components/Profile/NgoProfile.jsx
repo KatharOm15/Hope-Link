@@ -34,7 +34,7 @@ const NgoProfile = () => {
   const [volunteerRequests, setVolunteerRequests] = useState([]);
   const [donationsData, setDonationsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const ngoId = localStorage.getItem("ngo_id");
   const [selectedTab, setSelectedTab] = useState(0);
   const [donationsDialogOpen, setDonationsDialogOpen] = useState(false);
@@ -69,7 +69,6 @@ const NgoProfile = () => {
 
     fetchNgoData();
     fetchVolunteerRequests();
-
   }, [ngoId]);
 
   const handleAcceptRequest = (requestId) => {
@@ -110,14 +109,15 @@ const NgoProfile = () => {
     }
   };
 
-
   const [volunteersDialogOpen, setVolunteersDialogOpen] = useState(false);
   const handleViewDonations = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/ngo/${ngoId}/ngodonations`);
-        console.log(response.data)
-        setDonationsData(response.data);
-        setVolunteersDonationDialogOpen(true)
+      const response = await axios.get(
+        `http://localhost:3000/ngo/${ngoId}/ngodonations`
+      );
+      console.log(response.data);
+      setDonationsData(response.data);
+      setVolunteersDonationDialogOpen(true);
     } catch (error) {
       console.error("Error fetching donations", error);
       alert("Failed to fetch donations.");
@@ -129,13 +129,15 @@ const NgoProfile = () => {
   };
 
   const [volunteers, setVolunteers] = useState([]);
-  
 
-  const [volunteersDonationDialogOpen, setVolunteersDonationDialogOpen] = useState(false);
+  const [volunteersDonationDialogOpen, setVolunteersDonationDialogOpen] =
+    useState(false);
 
   const handleVolunteer = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/ngo/${ngoId}/volunteers`);
+      const response = await axios.get(
+        `http://localhost:3000/ngo/${ngoId}/volunteers`
+      );
       setVolunteers(response.data);
       setVolunteersDialogOpen(true); // Open the dialog
     } catch (error) {
@@ -148,10 +150,9 @@ const NgoProfile = () => {
     setVolunteersDialogOpen(false); // Close the dialog
   };
 
-  const handleCloseVolunteersDonationDialog=()=>{
-    setVolunteersDonationDialogOpen(false)
-  }
-  
+  const handleCloseVolunteersDonationDialog = () => {
+    setVolunteersDonationDialogOpen(false);
+  };
 
   if (loading) {
     // Center the loading spinner while data is being fetched
@@ -231,58 +232,64 @@ const NgoProfile = () => {
                 Volunteers
               </Typography>
               <Container sx={{ mt: 4 }}>
-      {/* Other content */}
-      <Button
-        variant="outlined"
-        color="secondary"
-        fullWidth
-        onClick={handleVolunteer}
-      >
-        View Volunteers
-      </Button>
+                {/* Other content */}
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  onClick={handleVolunteer}
+                >
+                  View Volunteers
+                </Button>
 
-      {/* Dialog for Volunteers */}
-      <Dialog
-        open={volunteersDialogOpen}
-        onClose={handleCloseVolunteersDialog}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>Volunteers</DialogTitle>
-        <DialogContent>
-          {volunteers.length > 0 ? (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Email</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {volunteers.map((volunteer) => (
-                    <TableRow key={volunteer._id}>
-                      <TableCell>{volunteer.username}</TableCell>
-                      <TableCell>{volunteer.email}</TableCell>
-                      
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Typography variant="body2" color="textSecondary">
-              No volunteers available.
-            </Typography>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseVolunteersDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+                {/* Dialog for Volunteers */}
+                <Dialog
+                  open={volunteersDialogOpen}
+                  onClose={handleCloseVolunteersDialog}
+                  fullWidth
+                  maxWidth="sm"
+                >
+                  <DialogTitle>Volunteers</DialogTitle>
+                  <DialogContent>
+                    {volunteers.length > 0 ? (
+                      <TableContainer component={Paper}>
+                        <Table>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell sx={{ fontWeight: "bold" }}>
+                                Name
+                              </TableCell>
+                              <TableCell sx={{ fontWeight: "bold" }}>
+                                Email
+                              </TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {volunteers.map((volunteer) => (
+                              <TableRow key={volunteer._id}>
+                                <TableCell>{volunteer.username}</TableCell>
+                                <TableCell>{volunteer.email}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    ) : (
+                      <Typography variant="body2" color="textSecondary">
+                        No volunteers available.
+                      </Typography>
+                    )}
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={handleCloseVolunteersDialog}
+                      color="primary"
+                    >
+                      Close
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Container>
             </CardContent>
           </Card>
 
@@ -314,17 +321,13 @@ const NgoProfile = () => {
                             <Box display="flex" justifyContent="flex-end">
                               <IconButton
                                 color="primary"
-                                onClick={() =>
-                                  handleAcceptRequest(request._id)
-                                }
+                                onClick={() => handleAcceptRequest(request._id)}
                               >
                                 <CheckCircle />
                               </IconButton>
                               <IconButton
                                 color="secondary"
-                                onClick={() =>
-                                  handleDenyRequest(request._id)
-                                }
+                                onClick={() => handleDenyRequest(request._id)}
                               >
                                 <Cancel />
                               </IconButton>
@@ -350,75 +353,77 @@ const NgoProfile = () => {
       {/* Donations Dialog */}
 
       <Dialog
-      open={volunteersDonationDialogOpen}
-      onClose={handleCloseVolunteersDonationDialog}
-      fullWidth
-      maxWidth="sm"
+        open={volunteersDonationDialogOpen}
+        onClose={handleCloseVolunteersDonationDialog}
+        fullWidth
+        maxWidth="sm"
       >
-      <Card sx={{ padding: 2, boxShadow: 3 }}>
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          Donations
-        </Typography>
-
-        {/* Display the donations in a more attractive format */}
-        {donationsData.length > 0 ? (
-          donationsData.map((donationGroup) => (
-            <Card key={donationGroup.ngoId} sx={{ mb: 2 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {donationGroup.ngoName}
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Total Donations:</strong>{" "}
-                  {donationGroup.totalDonations}
-                </Typography>
-
-                {donationGroup.donors && donationGroup.donors.length > 0 ? (
-                  <TableContainer component={Paper} sx={{ mt: 2 }}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Volunteer Name</TableCell>
-                          <TableCell>Email</TableCell>
-                          <TableCell>Mobile</TableCell>
-                          <TableCell>Amount</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {donationGroup.donors.map((donor) => (
-                          <TableRow key={donor.email}>
-                            <TableCell>{donor.name}</TableCell>
-                            <TableCell>{donor.email}</TableCell>
-                            <TableCell>{donor.mobileNumber}</TableCell>
-                            <TableCell>{donor.amount}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                ) : (
-                  <Typography variant="body2" color="textSecondary">
-                    No donors available for this NGO.
-                  </Typography>
-                )}
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <Typography variant="body2" color="textSecondary">
-            No donations available.
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            Donations
           </Typography>
-        )}
-      </CardContent>
-    </Card>
-    <DialogActions>
+
+          {/* Display the donations in a more attractive format */}
+          {donationsData.length > 0 ? (
+            donationsData.map((donationGroup) => (
+              <Card key={donationGroup.ngoId} sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="body1">
+                    <strong>Total Donations:</strong>{" "}
+                    {donationGroup.totalDonations}
+                  </Typography>
+
+                  {donationGroup.donors && donationGroup.donors.length > 0 ? (
+                    <TableContainer sx={{ mt: 2 }}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell sx={{ fontWeight: "bold" }}>
+                              Volunteer Name
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>
+                              Email
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>
+                              Mobile
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>
+                              Amount
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {donationGroup.donors.map((donor) => (
+                            <TableRow key={donor.email}>
+                              <TableCell>{donor.name}</TableCell>
+                              <TableCell>{donor.email}</TableCell>
+                              <TableCell>{donor.mobileNumber}</TableCell>
+                              <TableCell>{donor.amount}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  ) : (
+                    <Typography variant="body2" color="textSecondary">
+                      No donors available for this NGO.
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Typography variant="body2" color="textSecondary">
+              No donations available.
+            </Typography>
+          )}
+        </CardContent>
+        <DialogActions>
           <Button onClick={handleCloseVolunteersDonationDialog} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
-     
     </Container>
   );
 };

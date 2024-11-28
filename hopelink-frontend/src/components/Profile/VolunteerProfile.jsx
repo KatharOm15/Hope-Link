@@ -7,7 +7,19 @@ import {
   CardContent,
   Typography,
   Box,
+  Button,
   CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
 import "./VolunteerProfile.css";
 
@@ -20,7 +32,9 @@ const VolunteerProfile = () => {
   });
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [connectedNgos, setConnectedNgos] = useState([]); // State to hold connected NGOs
   const [error, setError] = useState(null);
+  const [ngoDialogOpen, setNgoDialogOpen] = useState(false);
   const id = localStorage.getItem("user_id");
 
   useEffect(() => {
@@ -34,20 +48,21 @@ const VolunteerProfile = () => {
         );
         setUserInfo(userResponse.data);
 
-        // Uncomment and replace endpoints if NGO count and donations data are required
+        // Fetch NGO count
         const ngosResponse = await axios.get(
           `http://localhost:3000/login/${id}/connected-ngos/count`
         );
         setNgoCount(ngosResponse.data.count);
-
-        // const donationsResponse = await axios.get(`/api/profile/${id}/donations`);
-        // setDonations(donationsResponse.data);
 
         // Fetch posts
         const postsResponse = await axios.get(
           `http://localhost:3000/login/profile/${id}/posts`
         );
         setPosts(postsResponse.data);
+
+        // Fetch donations
+        const donationAmt = await axios.get(`http://localhost:3000/login/profile/${id}/donation`);
+        setDonations(donationAmt.data);
 
         setLoading(false);
       } catch (error) {
@@ -59,6 +74,23 @@ const VolunteerProfile = () => {
 
     fetchProfileData();
   }, [id]);
+
+  const handleViewNgos = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/login/profile/${id}/connected-ngos`
+      );
+      console.log(response);
+      setConnectedNgos(response.data.connectedNgo); // Correct path to the connectedNgo data
+      setNgoDialogOpen(true); // Open the dialog
+    } catch (error) {
+      console.error("Error fetching connected NGOs", error);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setNgoDialogOpen(false); // Close the dialog
+  };
 
   const maxDonation = 1000; // Set a maximum donation goal for visualization
 
@@ -77,6 +109,7 @@ const VolunteerProfile = () => {
       </Box>
     );
   }
+
   if (error) return <p>{error}</p>;
 
   return (
@@ -108,6 +141,15 @@ const VolunteerProfile = () => {
                 <CardContent>
                   <Typography variant="h6">Connected NGOs</Typography>
                   <Typography variant="h4">{ngoCount}</Typography>
+                  <Box mt={2} display="flex" gap={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleViewNgos}
+                    >
+                      View NGO's
+                    </Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -176,6 +218,47 @@ const VolunteerProfile = () => {
           </CardContent>
         </Card>
       </Grid>
+
+      {/* Dialog displaying connected NGOs */}
+      <Dialog
+        open={ngoDialogOpen}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Connected NGOs</DialogTitle>
+        <DialogContent>
+          {connectedNgos.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Registration Number</TableCell>
+                    <TableCell>Contact</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {connectedNgos.map((ngo) => (
+                    <TableRow key={ngo._id}>
+                      <TableCell>{ngo.ngoName}</TableCell>
+                      <TableCell>{ngo.registrationNumber}</TableCell>
+                      <TableCell>{ngo.contactNumber}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Typography>No connected NGOs found.</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

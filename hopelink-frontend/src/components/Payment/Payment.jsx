@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './payment.css'
+import { useLocation } from "react-router-dom";
 
 
 const Payment = () => {
+  const location = useLocation();
+  const { ngoId } = location.state || {};
+  console.log(ngoId)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     mobileNumber: '',
     amount: '',
-    userId:localStorage.getItem("user_id")
+    userId:localStorage.getItem("user_id"),
+    ngoIds:[ngoId]
   });
+  
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

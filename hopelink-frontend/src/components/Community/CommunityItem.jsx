@@ -31,6 +31,8 @@ export default function CommunityItem({ community, onSelect }) {
     },
   };
 
+  console.log("first" + community);
+
   return (
     <div className="list-item" onClick={onSelect} style={styles.listItem}>
       <Avatar
@@ -42,12 +44,6 @@ export default function CommunityItem({ community, onSelect }) {
         <span className="list-item-name" style={styles.listItemName}>
           {community.ngoName}
         </span>
-        {/* <span
-          className="list-item-description"
-          style={styles.listItemDescription}
-        >
-          {community.pod_description}
-        </span> */}
       </div>
     </div>
   );

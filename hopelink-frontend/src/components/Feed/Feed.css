@@ -1,11 +1,10 @@
 /* Feed Page */
 .feed-container {
   width: 60%;
-  margin: 50px auto;
+  margin: 20px auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -71,4 +70,14 @@ h2 {
 
 .post-actions button:hover {
   background-color: #e0e0e0;
+}
+
+@media (max-width: 600px) {
+  .feed-container {
+    width: 80%;
+    margin: 0;
+  }
+  .post-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 }

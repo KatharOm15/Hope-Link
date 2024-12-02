@@ -123,3 +123,19 @@ li {
   margin-right: 4px;
   object-fit: contain;
 }
+
+@media (max-width: 600px) {
+  .logo {
+    margin-left: 30px;
+  }
+  .logoimg {
+    max-width: 50%;
+  }
+  .org-name {
+    font-size: 1.5rem;
+  }
+  ul {
+    width: 100%;
+    margin-right: 10px;
+  }
+}

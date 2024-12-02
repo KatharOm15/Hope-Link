@@ -9,10 +9,11 @@ export default function CommunityList({ onSelectCommunity }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [communityList, setCommunityList] = useState([]); // State to store fetched pods
   //   const [loading, setLoading] = useState(true); // For handling loading state
   const userId = localStorage.getItem("user_id");
+  const ngoId = localStorage.getItem("ngo_id");
 
   const styles = {
     listContainer: {
@@ -63,28 +64,43 @@ export default function CommunityList({ onSelectCommunity }) {
 
   useEffect(() => {
     const fetchUserCommunity = async () => {
-      axios
-        .get(`http://localhost:3000/ngo/${userId}/connected-ngo-details`)
-        .then((response) => {
-          setCommunityList(response.data.connectedNgos);
-          console.log(response.data.connectedNgos);
-        })
-        .catch((error) => {
-          console.error("Error fetching all users:", error);
-        });
+      if (userId) {
+        axios
+          .get(`http://localhost:3000/ngo/${userId}/connected-ngo-details`)
+          .then((response) => {
+            setCommunityList(response.data.connectedNgos);
+            console.log(response.data.connectedNgos);
+          })
+          .catch((error) => {
+            console.error("Error fetching all users:", error);
+          });
+      } else if (ngoId) {
+        axios
+          .get(`http://localhost:3000/ngo/${ngoId}`)
+          .then((response) => {
+            setCommunityList([response.data]);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching all users:", error);
+          });
+      }
     };
     fetchUserCommunity();
   }, [userId]);
 
   // Filtered list based on search query with added checks
-  const filteredCommunityList = searchQuery
+  let filteredCommunityList = communityList;
+  filteredCommunityList = searchQuery
     ? communityList.filter(
         (community) =>
           community &&
-          community.username &&
-          community.username.toLowerCase().includes(searchQuery.toLowerCase())
+          community.ngoName &&
+          community.ngoName.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : communityList;
+
+  // console.log("filter" + JSON.stringify(filteredCommunityList));
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -93,15 +109,28 @@ export default function CommunityList({ onSelectCommunity }) {
   return (
     <>
       {/* Show the menu icon and drawer only on small screens */}
-      {isSmallScreen && (
+      {/* {isSmallScreen && (
         <>
-          <IconButton
-            color="inherit"
-            onClick={handleDrawerToggle}
-            sx={{ display: { xs: "block", md: "none" } }}
+          <div
+            style={{
+              position: "relative",
+            }}
           >
-            <MenuIcon />
-          </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={handleDrawerToggle}
+              sx={{
+                position: "absolute",
+                top: "20px",
+                left: "20px",
+                padding: "0",
+                margin: "0",
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <Drawer
             anchor="left"
             open={drawerOpen}
@@ -110,6 +139,7 @@ export default function CommunityList({ onSelectCommunity }) {
               "& .MuiDrawer-paper": {
                 width: "250px",
                 padding: "20px",
+                background: "#2d3e54",
               },
             }}
           >
@@ -140,40 +170,40 @@ export default function CommunityList({ onSelectCommunity }) {
             </div>
           </Drawer>
         </>
-      )}
+      )} */}
 
       {/* Show the list container only on larger screens */}
-      {!isSmallScreen && (
-        <div className="list-container" style={styles.listContainer}>
-          <h4 style={styles.heading}>NGOs</h4>
-          <div className="input-container" style={styles.inputContainer}>
-            <input
-              type="text"
-              placeholder="Search"
-              style={styles.input}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="community-list" style={styles.list}>
-            {filteredCommunityList.length > 0 ? (
-              filteredCommunityList.map((community, index) => (
-                <CommunityItem
-                  key={index}
-                  community={community}
-                  onSelect={() => onSelectCommunity(community)}
-                />
-              ))
-            ) : (
-              <p style={styles.noCommunityMessage}>
-                {searchQuery
-                  ? "No community's found"
-                  : "No community's available"}
-              </p>
-            )}
-          </div>
+      {/* {!isSmallScreen && ( */}
+      <div className="list-container" style={styles.listContainer}>
+        <h4 style={styles.heading}>NGOs</h4>
+        <div className="input-container" style={styles.inputContainer}>
+          <input
+            type="text"
+            placeholder="Search"
+            style={styles.input}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
-      )}
+        <div className="community-list" style={styles.list}>
+          {filteredCommunityList.length > 0 ? (
+            filteredCommunityList.map((community, index) => (
+              <CommunityItem
+                key={index}
+                community={community}
+                onSelect={() => onSelectCommunity(community)}
+              />
+            ))
+          ) : (
+            <p style={styles.noCommunityMessage}>
+              {searchQuery
+                ? "No community's found"
+                : "No community's available"}
+            </p>
+          )}
+        </div>
+      </div>
+      {/* )} */}
     </>
   );
 }

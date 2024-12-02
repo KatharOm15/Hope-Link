@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import Profile from "./Profile";
-import { apiGeneral } from "../../utils/urls";
 import { Avatar } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // Establish socket connection
 const socket = io("http://localhost:3000");
 
-export default function ChatContainer({ community, isOpen }) {
+export default function ChatContainer({ community, isOpen, onClose }) {
   const [chatInput, setChatInput] = useState("");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const userId = localStorage.getItem("user_id");
+  const ngoId = localStorage.getItem("ngo_id");
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -32,12 +33,12 @@ export default function ChatContainer({ community, isOpen }) {
   // Function to fetch messages from the server (polling)
   const fetchMessages = () => {
     if (isOpen && community?._id) {
-      fetch(`http://localhost:3000/messages/conversation/${userId}/${community._id}
-`)
+      fetch(`http://localhost:3000/messages/conversation/${community._id}`)
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
             setChatMessages(data);
+            console.log("first" + JSON.stringify(data));
           } else {
             console.error("Expected an array of messages but got:", data);
             setChatMessages([]);
@@ -56,9 +57,7 @@ export default function ChatContainer({ community, isOpen }) {
 
       // 2. Socket.IO listener for real-time messages
       socket.on("chatMessage", (msg) => {
-        if (msg.podId === community._id) {
-          setChatMessages((prevMessages) => [...prevMessages, msg]);
-        }
+        console.log("Received message:", msg);
       });
 
       // 3. Polling mechanism as a fallback (every 10 seconds)
@@ -75,7 +74,7 @@ export default function ChatContainer({ community, isOpen }) {
   const handleSend = () => {
     if (chatInput.trim()) {
       const newMessage = {
-        sender: userId,
+        sender: userId ? userId : ngoId,
         receiver: community._id,
         text: chatInput,
       };
@@ -95,7 +94,7 @@ export default function ChatContainer({ community, isOpen }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sender: userId,
+          sender: userId ? userId : ngoId,
           receiver: community._id,
           text: chatInput,
         }),
@@ -113,6 +112,20 @@ export default function ChatContainer({ community, isOpen }) {
       handleSend();
     }
   };
+
+  const handleEscKey = (e) => {
+    if (e.key === "Escape" && !isProfileOpen) {
+      onClose(); // Close chat container on ESC for large screens
+    }
+  };
+
+  useEffect(() => {
+    // Add ESC key listener for large screens
+    window.addEventListener("keydown", handleEscKey);
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+    };
+  }, []);
 
   if (!isOpen || !community || !community._id) return null;
 
@@ -218,6 +231,23 @@ export default function ChatContainer({ community, isOpen }) {
 
   return (
     <div className="chat-container" style={styles.chatContainer}>
+      {window.innerWidth <= 600 && (
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "18.5%",
+            left: "10px",
+            background: "transparent",
+            color: "#000",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <ArrowBackIcon style={{ fontSize: "2rem" }} />
+        </button>
+      )}
+
       <div
         className="community-details-container"
         style={styles.communityDetailsContainer}
@@ -232,12 +262,6 @@ export default function ChatContainer({ community, isOpen }) {
           <span className="community-name" style={styles.communityName}>
             {community.ngoName}
           </span>
-          {/* <span
-            className="community-description"
-            style={styles.communityDescription}
-          >
-            {pod.pod_description}
-          </span> */}
         </div>
       </div>
       <div className="chat-messages" style={styles.chatMessages}>
@@ -246,11 +270,13 @@ export default function ChatContainer({ community, isOpen }) {
             <div
               key={index}
               className={`chat-message ${
-                message.sender === userId ? "sender" : "receiver"
+                message.sender === userId || message.sender === ngoId
+                  ? "sender"
+                  : "receiver"
               }`}
               style={{
                 ...styles.chatMessage,
-                ...(message.sender === userId
+                ...(message.sender === userId || message.sender === ngoId
                   ? styles.chatMessageSender
                   : styles.chatMessageReceiver),
               }}
@@ -259,7 +285,7 @@ export default function ChatContainer({ community, isOpen }) {
                 className="chat-bubble"
                 style={{
                   ...styles.chatBubble,
-                  ...(message.sender === userId
+                  ...(message.sender === userId || message.sender === ngoId
                     ? styles.chatBubbleSender
                     : styles.chatBubbleReceiver),
                 }}
@@ -269,34 +295,24 @@ export default function ChatContainer({ community, isOpen }) {
             </div>
           ))
         ) : (
-          <p>No messages found.</p>
+          <p>Loading messages...</p>
         )}
-        {/* Reference to ensure auto-scroll */}
-        <div ref={messagesEndRef}></div>
+        <div ref={messagesEndRef} />
       </div>
-
       <div className="input-wrapper" style={styles.inputWrapper}>
         <input
           type="text"
           value={chatInput}
           onChange={(e) => setChatInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
+          placeholder="Type a message..."
           style={styles.input}
         />
         <button onClick={handleSend} style={styles.sendButton}>
-          SEND
+          <SendIcon />
         </button>
       </div>
-      {isProfileOpen && (
-        <Profile
-          isOpen={isProfileOpen}
-          onClose={handleProfileClick}
-          photo={community.profilePhoto}
-          name={community.username}
-          description={community.pod_description}
-        />
-      )}
+      {isProfileOpen && <Profile />}
     </div>
   );
 }

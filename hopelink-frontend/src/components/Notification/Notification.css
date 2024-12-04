@@ -9,7 +9,7 @@
   top: 60px;
   right: 20px;
   z-index: 1000;
-  height: 300px; /* Fixed height for container */
+  height: 400px; /* Fixed height for container */
   display: flex;
   flex-direction: column; /* Stack header and list vertically */
   overflow-y: auto; /* Allows scrolling if notifications exceed container height */

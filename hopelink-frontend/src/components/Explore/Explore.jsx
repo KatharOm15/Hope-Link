@@ -18,7 +18,7 @@ function Explore() {
   useEffect(() => {
     // Fetch all NGOs
     axios
-      .get(`http://localhost:3000/ngo/get-all-ngo${userId}`)
+      .get(`https://hopelin-server.onrender.com/ngo/get-all-ngo${userId}`)
       .then((response) => {
         setData(response.data);
         setLoading(false);
@@ -31,7 +31,7 @@ function Explore() {
 
     // Fetch join requests for this user
     axios
-      .get(`http://localhost:3000/ngo/get-users-requests/${userId}`)
+      .get(`https://hopelin-server.onrender.com/ngo/get-users-requests/${userId}`)
       .then((response) => {
         const statusMap = {};
         response.data.forEach((request) => {
@@ -46,7 +46,7 @@ function Explore() {
 
   const handleJoinToggle = async (id) => {
     try {
-      const response = await axios.post("http://localhost:3000/ngo/join", {
+      const response = await axios.post("https://hopelin-server.onrender.com/ngo/join", {
         userId,
         ngoId: id,
       });

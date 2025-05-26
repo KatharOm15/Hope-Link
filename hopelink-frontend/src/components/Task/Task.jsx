@@ -21,7 +21,7 @@ const Task = () => {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/assign-task/${task.ngoId}`);
+            const response = await axios.get(`https://hopelin-server.onrender.com/assign-task/${task.ngoId}`);
             setTasks(response.data);
         } catch (error) {
             console.error("Error fetching tasks", error);
@@ -35,7 +35,7 @@ const Task = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/assign-task", task);
+            const response = await axios.post("https://hopelin-server.onrender.com/assign-task", task);
             console.log(response.data); 
             setTask({
                 title: '',

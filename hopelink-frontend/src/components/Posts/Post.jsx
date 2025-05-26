@@ -46,7 +46,7 @@ function Post() {
     };
 
     try {
-      await axios.post('http://localhost:3000/posts', postData); // replace with your backend URL
+      await axios.post('https://hopelin-server.onrender.com/posts', postData); // replace with your backend URL
       alert("Your work is posted");
       handleCancel();
     } catch (error) {

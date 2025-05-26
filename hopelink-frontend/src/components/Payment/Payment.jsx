@@ -25,7 +25,7 @@ const Payment = () => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/create-order', formData);
+      const response = await axios.post('https://hopelin-server.onrender.com/create-order', formData);
       console.log(response.data);
       window.location.href = response.data.url;
     } catch (error) {

@@ -23,11 +23,11 @@ const PostsSection = ({ ngoId }) => {
     const fetchPosts = async () => {
       try {
         const myPostsResponse = await axios.get(
-          `http://localhost:3000/login/profile/${ngoId}/posts`
+          `https://hopelin-server.onrender.com/login/profile/${ngoId}/posts`
         ); // Adjust URL
         setMyPosts(myPostsResponse.data);
         const volunteerPostsResponse = await axios.get(
-          `http://localhost:3000/ngo/${ngoId}/volunteers/posts`
+          `https://hopelin-server.onrender.com/ngo/${ngoId}/volunteers/posts`
         ); // Adjust URL
         setPosts(volunteerPostsResponse.data.post);
         setLoading(false);

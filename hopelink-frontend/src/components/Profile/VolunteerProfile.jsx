@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
@@ -24,6 +25,7 @@ import {
 import "./VolunteerProfile.css";
 
 const VolunteerProfile = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [ngoCount, setNgoCount] = useState(0);
   const [donations, setDonations] = useState({
@@ -44,25 +46,25 @@ const VolunteerProfile = () => {
 
         // Fetch user info
         const userResponse = await axios.get(
-          `http://localhost:3000/login/profile/${id}`
+          `https://hopelin-server.onrender.com/login/profile/${id}`
         );
         setUserInfo(userResponse.data);
 
         // Fetch NGO count
         const ngosResponse = await axios.get(
-          `http://localhost:3000/login/${id}/connected-ngos/count`
+          `https://hopelin-server.onrender.com/login/${id}/connected-ngos/count`
         );
         setNgoCount(ngosResponse.data.count);
 
         // Fetch posts
         const postsResponse = await axios.get(
-          `http://localhost:3000/login/profile/${id}/posts`
+          `https://hopelin-server.onrender.com/login/profile/${id}/posts`
         );
         setPosts(postsResponse.data);
 
         // Fetch donations
         const donationAmt = await axios.get(
-          `http://localhost:3000/login/profile/${id}/donation`
+          `https://hopelin-server.onrender.com/login/profile/${id}/donation`
         );
         setDonations(donationAmt.data);
 
@@ -80,7 +82,7 @@ const VolunteerProfile = () => {
   const handleViewNgos = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/login/profile/${id}/connected-ngos`
+        `https://hopelin-server.onrender.com/login/profile/${id}/connected-ngos`
       );
       console.log(response);
       setConnectedNgos(response.data.connectedNgo); // Correct path to the connectedNgo data
@@ -240,6 +242,7 @@ const VolunteerProfile = () => {
                       Registration Number
                     </TableCell>
                     <TableCell sx={{ fontWeight: "bold" }}>Contact</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -248,6 +251,18 @@ const VolunteerProfile = () => {
                       <TableCell>{ngo.ngoName}</TableCell>
                       <TableCell>{ngo.registrationNumber}</TableCell>
                       <TableCell>{ngo.contactNumber}</TableCell>
+                      <TableCell> 
+                        <button
+            className={`donate-now-button `}
+            onClick={() => {
+
+                  navigate("/payment",{ state: { ngoId: ngo._id } });
+                }}
+              >
+                Donate Now
+              </button>
+    </TableCell>
+                      
                     </TableRow>
                   ))}
                 </TableBody>

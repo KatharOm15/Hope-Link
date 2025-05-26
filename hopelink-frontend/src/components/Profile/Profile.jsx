@@ -12,7 +12,7 @@ function Profile() {
   const [data, setData] = useState([]);
   useEffect(
     ()=>{
-      axios.get('http://localhost:3000/profile')
+      axios.get('https://hopelin-server.onrender.com/profile')
       .then(response => {
         setData(response.data);
         // setLoading(false);

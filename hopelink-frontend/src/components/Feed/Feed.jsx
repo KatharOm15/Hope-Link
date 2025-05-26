@@ -7,7 +7,7 @@ import axios from "axios";
 function Feed() {
   const [data, setData] = useState([]);
   useEffect(() => {
-  axios.get("http://localhost:3000/feed")
+  axios.get("https://hopelin-server.onrender.com/feed")
   .then((res)=>{
     setData(res.data);
   })
